@@ -30,4 +30,10 @@ const getFirestoreDb = () => {
   return db;
 };
 
+const getAuth = () => {
+    if (!auth) {
+      auth = admin.auth();
+    }
+    return auth;
+  };
 module.exports = { initializeFirestoreAdminApp, getFirestoreDb };
