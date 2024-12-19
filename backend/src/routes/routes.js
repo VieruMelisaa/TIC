@@ -9,5 +9,8 @@ router.get('/', (req, res) => {
 router.get('/verificare', authenticate, async (req, res) => {
     res.json({ user: req.user });
   });
-  
+
+router.get('/toateSortimentele', authenticate, exports.getAllSortimente);
+router.post('/toateSortimentele/add', authenticate, exports.addSortiment);
+
 module.exports = router;
