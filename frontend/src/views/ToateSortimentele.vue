@@ -5,6 +5,8 @@
         <li v-for="sortiment in sortimente" :key="sortiment.id">
           <img :src="sortiment.image" alt="Sortiment" />
           <p>{{ sortiment.description }}</p>
+          <router-link :to="`/toateSortimentele/edit/${sortiment.id}`">Editează</router-link>
+          <button @click="deleteSortiment(sortiment.id)">Șterge</button>
         </li>
       </ul>
     </div>
@@ -20,7 +22,7 @@
       this.fetchSortimente();
     },
     methods: {
-      ...mapActions(['fetchSortimente'])
+      ...mapActions(['fetchSortimente', 'deleteSortiment'])
     }
   };
   </script>
