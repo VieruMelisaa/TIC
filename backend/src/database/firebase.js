@@ -13,27 +13,36 @@ const serviceAccount = {
   clientX509CertUrl: process.env.clientX509CertUrl,
   universe_domain: process.env.universe_domain
 };
-
-let db;
+let db; 
 let auth;
 
 const initializeFirestoreAdminApp = () => {
+  if (!serviceAccount) {
+    console.log("err")
+  }
+
   if (!admin.apps.length) {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     });
+    
     db = admin.firestore();
+    auth = admin.auth();
   }
 };
 
 const getFirestoreDb = () => {
+  if (!db) {
+    console.log("Db not init")
+  }
   return db;
 };
 
 const getAuth = () => {
-    if (!auth) {
-      auth = admin.auth();
-    }
-    return auth;
-  };
-module.exports = { initializeFirestoreAdminApp, getFirestoreDb };
+  if (!auth) {
+    console.log("Auth not init")
+  }
+  return auth;
+};
+
+module.exports = { initializeFirestoreAdminApp, getAuth, getFirestoreDb }
