@@ -1,69 +1,203 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
+import {  signInWithEmailAndPassword,  onAuthStateChanged,  signOut } from '../service/firebase';
 
+// este creata o stare vuex
 export default createStore({
+
   state: {
-    user: null,
-    sortimente: [],
-    reduceri: [],
-    specialitati: []
+    user: null, idToken: null,
+    role: null, sortimente: [],
   },
+
   mutations: {
+
+    editSortiment(state, editedSortiment) {
+      const index = state.sortimente.findIndex(a => a.id === editedSortiment.id);
+      if (index !== -1) {
+        state.sortimente.splice(index, 1, editedSortiment);
+      }
+    },
+
+    deleteSortiment(state, sortimentId) {
+        state.sortimente = state.sortimente.filter(sort => sort.id !== sortimentId);
+    },
+
     setUser(state, user) {
       state.user = user;
     },
+
+    setToken(state, token) {
+      state.idToken = token;
+    },
+
+    setRole(state, role) {
+      state.role = role;
+    },
+
     clearUser(state) {
       state.user = null;
+      state.idToken = null;
+      state.role = null;
     },
+
     setSortimente(state, sortimente) {
       state.sortimente = sortimente;
     },
-    setReduceri(state, reduceri) {
-      state.reduceri = reduceri;
+
+    addSortiment(state, sortiment) {
+      state.sortimente.push(sortiment);
     },
-    setSpecialitati(state, specialitati) {
-      state.specialitati = specialitati;
-    }
+    
+    generateSortimente(state, sortiment) {
+      state.sortimente.push(sortiment);
+    },
+
   },
   actions: {
+
+    initializeAuth({ commit, dispatch }) {
+      onAuthStateChanged(async (user) => {
+        if (user) {
+          const token = await user.getIdToken();
+          commit('setUser', user);
+          commit('setToken', token);
+          dispatch('checkUserRole');
+        } else {
+          commit('clearUser');
+        }
+      });
+    },
+  
+    async login({ commit, dispatch }, { email, password }) {
+      try {
+        const userCredential = await signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        const token = await user.getIdToken();
+        commit('setUser', user);
+        commit('setToken', token);
+
+        await dispatch('checkUserRole');
+        return user;
+      } catch (error) {
+        throw new Error('Login failed: ' + error.message);
+      }
+    },
+
+    async logout({ commit }) {
+      await signOut();
+      commit('clearUser');
+    },
+
+    async checkUserRole({ state, commit }) {
+      if (!state.idToken) {
+        commit('setRole', null);
+        return;
+      }
+      try {
+        const response = await axios.get('http://localhost:8000/verificare', {
+          headers: {
+            Authorization: `Bearer ${state.idToken}`,
+          },
+        });
+        commit('setRole', response.data || null);
+      } catch (error) {
+        console.error('Eroare verificare rol:', error);
+        commit('setRole', null);
+      }
+    },
+
     async fetchSortimente({ commit }) {
       try {
-        const response = await axios.get('/api/toateSortimentele');
-        commit('setSortimente', response.data);
+        const response = await axios.get('http://localhost:8000/toateSortimentele');
+        commit('setSortimente', response.data.sortimente);
       } catch (error) {
-        console.error('Eroare la preluarea sortimentelor:', error);
+        console.error('Eroare la fetch la sortimente:', error.message);
       }
     },
-    async fetchReduceri({ commit }) {
+
+    async createSortiment({ state, dispatch }, payload) {
       try {
-        const response = await axios.get('/api/reduceri');
-        commit('setReduceri', response.data);
+        const data = JSON.parse(JSON.stringify(payload));
+    
+        console.log('Payload înainte de request:', data);
+      
+    
+        await axios.post(
+          'http://localhost:8000/toateSortimentele/add',
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${state.idToken}`,
+              'Content-Type': 'application/json' 
+            },
+          }
+        );
+    
+        dispatch('fetchSortimente');
       } catch (error) {
-        console.error('Eroare la preluarea reducerilor:', error);
+        console.error('Error creating sortiment:', error.response?.data || error.message);
       }
     },
-    async fetchSpecialitati({ commit }) {
+
+    async editSortiment({ commit, state }, sortiment) {
       try {
-        const response = await axios.get('/api/specialitati');
-        commit('setSpecialitati', response.data);
+        const response = await axios.post(`http://localhost:8000/toateSortimentele/edit/${sortiment.id}`, sortiment, {
+          headers: {
+            Authorization: `Bearer ${state.idToken}`,
+          },
+        });
+        commit('editSortiment', response.data.sortiment);
       } catch (error) {
-        console.error('Eroare la preluarea specialităților:', error);
+        console.error('Eroare la incarcarea documentului modificat:', error.message);
       }
     },
-    async login({ commit }, credentials) {
+
+
+    async deleteSortiment({ commit, state }, sortimentId) {
+      console.log("Token trimis:", state.idToken); // Verificăm token-ul
+
+  
       try {
-        const response = await axios.post('/api/login', credentials);
-        commit('setUser', response.data.user);
+        await axios.delete(`http://localhost:8000/toateSortimentele/${sortimentId}`, {
+          headers: {
+            Authorization: `Bearer ${state.idToken}`,
+          },
+        });
+        commit('deleteSortiment', sortimentId);
       } catch (error) {
-        console.error('Eroare la autentificare:', error);
+        console.error('Error deleting sortiment:', error.message);
       }
     },
-    async logout({ commit }) {
-      await axios.post('/api/logout');
-      commit('clearUser');
+
+    async generateSortimente({ state, dispatch  }) {
+      try {
+        console.log(state)
+    
+        const response = await axios.post('http://localhost:8000/toateSortimentele/generate', {}, {
+          headers: {
+            Authorization: `Bearer ${state.idToken}`,
+            'Content-Type': 'application/json' 
+          },
+        });
+    
+        if (response.status === 201) {
+          dispatch('fetchSortimente');
+          // return response;
+        }
+      } catch (error) {
+        console.error('Eroare la generare sortiment:', error.response?.data || error.message);
+        throw error;
+      }
     }
+    
+    
+
   },
+
   getters: {
-    isAuthenticated: state => !!state.user
-  }
+    user: (state) => state.user, isAuthenticated: (state) => !!state.user,  
+    isAdmin: (state) => state.role?.rol === 'admin',   getSortimente: (state) => state.sortimente,
+  },
+
 });

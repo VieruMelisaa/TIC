@@ -48,7 +48,7 @@ exports.getSortimentById = async (req, res) => {
 
 exports.addSortiment = async (req, res) => {
   try {
-    console.log('Request body:', req.body); // Log the request body
+    console.log('Request body:', req.body); 
 
   const { image: image, description: description } = req.body;
 
@@ -65,7 +65,7 @@ exports.addSortiment = async (req, res) => {
       description: description.trim()
     };
 
-    console.log('New sortiment:', sortimentNou); // Log the new sortiment
+    console.log('New sortiment:', sortimentNou); 
 
     const sortimentAdaugat = await sortimentRef.add(sortimentNou);
 
@@ -74,43 +74,10 @@ exports.addSortiment = async (req, res) => {
       sortiment: { id: sortimentAdaugat.id, ...sortimentNou },
     });
   } catch (error) {
-    console.error('Error in addSortiment:', error); // Log the error
+    console.error('Error in addSortiment:', error); 
     return res.status(500).json({ message: 'Eroare', error: error.message });
   }
 };
-
-// exports.editSortiment = async (req, res) => {
-//   try {
-//     console.log('Request params:', req.params); // Log the request params
-//     console.log('Request body:', req.body); // Log the request body
-
-//     const { sortimentId } = req.params; 
-//     const modificare = req.body;
-
-//     if (!sortimentId || typeof sortimentId !== 'string') {
-//       return res.status(400).json({ message: 'ID Invalid' });
-//     }
-
-//     const db = getFirestoreDb();
-//     const sortimentRef = db.collection('sortimente').doc(sortimentId);
-
-//     const doc = await sortimentRef.get();
-//     if (!doc.exists) {
-//       return res.status(404).json({ message: 'Sortimentul nu a fost gasit!' });
-//     }
-
-//     await sortimentRef.update(modificare);
-//     const sortimentModificat = (await sortimentRef.get()).data();
-
-//     return res.status(200).json({
-//       message: 'Sortiment actualizat!',
-//       sortiment: { id: sortimentId, ...sortimentModificat },
-//     });
-//   } catch (error) {
-//     console.error('Error in editSortiment:', error); // Log the error
-//     return res.status(500).json({ message: 'Error', error: error.message });
-//   }
-// };
 
 
 exports.editSortiment = async (req, res) => {
@@ -172,7 +139,6 @@ exports.deleteSortiment = async (req, res) => {
 
 exports.generateSortimente = async (req, res) => {
   try {
-    // const { count = 10 } = req.body;
     const db = getFirestoreDb();
     const sortimentRef = db.collection('sortimente');
 
