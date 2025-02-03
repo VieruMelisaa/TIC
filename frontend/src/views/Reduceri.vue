@@ -36,10 +36,11 @@
   
   <style scoped>
   .container {
-    background-image: url('https://i.pinimg.com/736x/98/f1/12/98f11229e247bae8bf21b62d50c82f14.jpg');
+    /* background-image: url('https://i.pinimg.com/736x/98/f1/12/98f11229e247bae8bf21b62d50c82f14.jpg'); */
+    background-image: url('https://img.freepik.com/premium-photo/homemade-red-velvet-cupcakes-with-whipped-cream-wooden-tray-white-napkin-with-ribbon-white-linen-table-cloth-square-image_72772-21235.jpg?w=740');
     background-size: cover;
     background-position: center;
-    height: 100vh;
+    height: 84.8vh;
     display: flex;
     justify-content: center;
     align-items: center;

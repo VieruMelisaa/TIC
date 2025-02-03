@@ -21,7 +21,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* O face sa fie deasupra altor elemente */
+    z-index: 1000; 
     background-color: #fce4d6;
     border-bottom: 2px solid #a0522d;
     padding: 1rem;

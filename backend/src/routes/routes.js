@@ -12,11 +12,9 @@ router.get('/toateSortimentele', ctrl.getAllSortimente);
 router.get('/toateSortimentele/:sortimentId', ctrl.getSortimentById);
 
 
-router.post('/toateSortimentele/add', authenticate, authorizeAdmin, (req, res, next) => {
-    next();
-}, ctrl.addSortiment);
+router.post('/toateSortimentele/add', authenticate, authorizeAdmin, ctrl.addSortiment);
 
-router.post('/toateSortimentele/edit/:sortimentId', authenticate, authorizeAdmin, ctrl.editSortiment);
+router.put('/toateSortimentele/edit/:sortimentId', authenticate, authorizeAdmin, ctrl.editSortiment);
 
 router.post('/toateSortimentele/generate', authenticate, authorizeAdmin, ctrl.generateSortimente);
 

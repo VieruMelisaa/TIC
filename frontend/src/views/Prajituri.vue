@@ -25,16 +25,16 @@
   
   <script>
   export default {
-    name: "AsteaSuntPrajituri",
+    name: "Prajituri",
   };
   </script>
   
   <style scoped>
   .container {
-    background-image: url('https://i.pinimg.com/736x/73/e5/e9/73e5e9be6878a1e0a2bdf06b35f267f2.jpg');
+    background-image: url('https://bakeeatlovebox.com/cdn/shop/files/Hero_5.jpg?v=1734543512&width=713');
     background-size: cover;
     background-position: center;
-    height: 100vh;
+    height: 84.8vh;
     display: flex;
     justify-content: center;
     align-items: center;

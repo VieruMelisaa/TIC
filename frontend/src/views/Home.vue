@@ -38,13 +38,15 @@
   .home-container {
     text-align: center;
     padding: 40px 20px;
-    background: url('https://i.pinimg.com/736x/00/07/13/00071382ec7fbf953574260a802f0828.jpg') no-repeat center center/cover;
-    min-height: 100vh;
+    /* background: url('https://i.pinimg.com/736x/00/07/13/00071382ec7fbf953574260a802f0828.jpg') no-repeat center center/cover; */
+    background: url('https://img.freepik.com/premium-photo/elegant-patisserie-background-with-croissants-butter-jam_818261-60802.jpg?w=1060') no-repeat center center/cover;
+    min-height: 74.5vh;
     color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
   }
   
   .home-title {

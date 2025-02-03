@@ -1,6 +1,6 @@
 <template>
     <div class="edit-sortiment-container">
-      <h1 class="edit-sortiment-title">Modifică Sortimentul</h1>
+      <h1 class="edit-sortiment-title">Modifica Sortimentul</h1>
   
       <form @submit.prevent="submitSortiment" class="edit-sortiment-form">
         <div class="form-group">

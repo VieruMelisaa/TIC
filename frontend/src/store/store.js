@@ -49,10 +49,6 @@ export default createStore({
       state.sortimente.push(sortiment);
     },
     
-    generateSortimente(state, sortiment) {
-      state.sortimente.push(sortiment);
-    },
-
   },
   actions: {
 
@@ -116,13 +112,12 @@ export default createStore({
       }
     },
 
-    async createSortiment({ state, dispatch }, payload) {
+    async createSortiment({ state, dispatch }, sortiment) {
       try {
-        const data = JSON.parse(JSON.stringify(payload));
+        const data = JSON.parse(JSON.stringify(sortiment));
     
-        console.log('Payload înainte de request:', data);
+        console.log('sortiment inainte de request:', data);
       
-    
         await axios.post(
           'http://localhost:8000/toateSortimentele/add',
           data,
@@ -142,7 +137,7 @@ export default createStore({
 
     async editSortiment({ commit, state }, sortiment) {
       try {
-        const response = await axios.post(`http://localhost:8000/toateSortimentele/edit/${sortiment.id}`, sortiment, {
+        const response = await axios.put(`http://localhost:8000/toateSortimentele/edit/${sortiment.id}`, sortiment, {
           headers: {
             Authorization: `Bearer ${state.idToken}`,
           },
@@ -155,9 +150,7 @@ export default createStore({
 
 
     async deleteSortiment({ commit, state }, sortimentId) {
-      console.log("Token trimis:", state.idToken); // Verificăm token-ul
 
-  
       try {
         await axios.delete(`http://localhost:8000/toateSortimentele/${sortimentId}`, {
           headers: {
@@ -172,7 +165,6 @@ export default createStore({
 
     async generateSortimente({ state, dispatch  }) {
       try {
-        console.log(state)
     
         const response = await axios.post('http://localhost:8000/toateSortimentele/generate', {}, {
           headers: {
@@ -180,19 +172,17 @@ export default createStore({
             'Content-Type': 'application/json' 
           },
         });
-    
+        console.log("Raspuns store.js",response);
         if (response.status === 201) {
           dispatch('fetchSortimente');
-          // return response;
         }
+
       } catch (error) {
         console.error('Eroare la generare sortiment:', error.response?.data || error.message);
         throw error;
       }
     }
     
-    
-
   },
 
   getters: {

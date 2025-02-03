@@ -6,12 +6,11 @@
             v-for="sort in sortimente"
             :key="sort.id"
             class="sortiment-card"
-            @click="viewSortimentDetails(sort.id)"
           >
             <img :src="sort.image" alt="Sortiment" class="sortiment-image" />
   
             <div class="sortiment-details">
-              <p v-if="true" class="sortiment-description">{{ sort.description }}</p>
+              <p  class="sortiment-description">{{ sort.description }}</p>
             </div>
   
             <div v-if="isAdmin" class="sortiment-actions">
@@ -38,17 +37,18 @@
   
   export default {
     components: { DeleteSortimentPopup },
-    computed: {
-      ...mapGetters(['getSortimente', 'isAdmin']),
-      sortimente() {
-        return this.getSortimente;
-      },
-    },
+   
     data() {
       return {
         popupVisible: false,
         sortimentIdToDelete: null,
       };
+    },
+    computed: {
+      ...mapGetters(['getSortimente', 'isAdmin']),
+      sortimente() {
+        return this.getSortimente;
+      },
     },
     methods: {
       theDeletePopup(id) {

@@ -66,8 +66,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-image: url("https://i.pinimg.com/736x/7f/80/df/7f80dfe4c3de298069c075ba6b1eca76.jpg");
+    height: 84.8vh;
+    background-image: url('https://img.freepik.com/free-photo/high-angle-shot-cheese-cupcakes-with-fruit-jelly-fruits-wooden-plate_181624-28372.jpg?t=st=1738515695~exp=1738519295~hmac=1e551b9f00e8c7acafb849ea399aced352631f1241575b4c5681a79f8be9abcf&w=996');
     background-size: cover;
     background-position: center;
     color: white;

@@ -61,8 +61,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-image: url("https://i.pinimg.com/736x/55/13/33/551333f17e333aee6d0617d87b391e11.jpg");
+    height: 84.7vh;
+    background-image: url("https://img.freepik.com/free-photo/croissant-with-jam-white-cutting-board-flat-lay_176474-8182.jpg?t=st=1738516039~exp=1738519639~hmac=92aa34cdb7ff4dc8c5c5b6ca99498ecf48b55c5754ecab5664dd2c6b43719014&w=900");
     background-size: cover;
     background-position: center;
     color: #fff;

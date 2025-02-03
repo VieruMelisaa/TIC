@@ -50,7 +50,7 @@ exports.addSortiment = async (req, res) => {
   try {
     console.log('Request body:', req.body); 
 
-  const { image: image, description: description } = req.body;
+    const { image: image, description: description } = req.body;
 
 
     if (!image || !description) {
@@ -143,14 +143,12 @@ exports.generateSortimente = async (req, res) => {
     const sortimentRef = db.collection('sortimente');
 
     const sortimentulGenerat = generateObject();
-    const sortimente = [];
     
     console.log(sortimentulGenerat)
+
     const documentAdaugat = await sortimentRef.add(sortimentulGenerat);
 
-      sortimente.push({ id: documentAdaugat.id, ...sortimentulGenerat });
-
-    return res.status(201).json({ message: 'Sortiment generat', count, sortimente });
+    return res.status(201).json({ message: 'Sortiment generat', sortiment:{id:documentAdaugat.id, ...sortimentulGenerat }});
   } catch (error) {
     return res.status(500).json({ message: 'Error', error: error.message });
   }

@@ -17,7 +17,6 @@ app.use(express.json());
 
 app.use('/', routes);
 
-morgan(app)
 app.use(morgan('dev'))
 
 app.listen(config.port, () => {

@@ -1,7 +1,7 @@
 <template>
     <div class="generate-container">
-      <p v-if="message" class="message">Obiect generat cu succes!</p>
-      <button v-if="message" @click="goToSortimente" class="go-button">Vezi Toate Sortimentele</button>
+      <p v-if=message class="message">{{message}}</p>
+      <button v-if=message  @click="goToSortimente" class="go-button">Vezi Toate Sortimentele</button>
     </div>
   </template>
   
@@ -14,29 +14,28 @@
         message: '',
       };
     },
-    async mounted() {
-      try {
-        if (!this.$store.state.idToken) {
-          await new Promise(resolve => setTimeout(resolve, 500));
-        }
-  
-        const response = await this.generateSortimente();
-        if (response?.status === 201) {
-          this.message = 'Obiect generat cu succes!';
-          setTimeout(() => {
-            this.$router.push('/toateSortimentele');
-          }, 2000);
-        }
-      } catch (error) {
-        this.message = 'Eroare la generare';
-      }
-    },
     methods: {
       ...mapActions(['generateSortimente']),
       goToSortimente() {
         this.$router.push('/toateSortimentele');
       }
     },
+    async mounted() {
+
+      try {
+
+        const response = await this.generateSortimente();
+        
+        this.message = 'Obiect generat cu succes!';
+          setTimeout(() => {
+            this.$router.push('/toateSortimentele');
+          }, 2000);
+        
+      } catch (error) {
+        this.message = 'Eroare la generare';
+      }
+    },
+  
   };
   </script>
   
@@ -45,15 +44,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-image: url('https://i.pinimg.com/736x/a3/53/e5/a353e5752b5172a78a37996e128da52b.jpg');
+    height: 84.7vh;
+    background-image: url('https://img.freepik.com/premium-photo/bakery-with-display-pastries-pastries_1315312-97296.jpg?w=1060');
     background-size: cover;
     background-position: center;
     flex-direction: column;
   }
   
   .message {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     color: #8b4513;
     text-align: center;
     background: white;
@@ -65,7 +64,7 @@
   
   .go-button {
     padding: 10px 20px;
-    font-size: 1rem;
+    font-size: 2rem;
     color: #8b4513; 
     background-color: #f2d1b3; 
     border: 2px solid #8b4513;
